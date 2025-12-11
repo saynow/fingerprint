@@ -1,0 +1,199 @@
+<html lang='en'>
+  <head>
+    <!-- MIT License -->
+    <!-- Copyright (c) 2024 L. Trampert, D. Weber, L. Gerlach, C. Rossow, M. Schwarz -->
+    <!-- Original Code: https://github.com/cispa/cascading-spy-sheets/blob/main/pocs/browser/poc_chrome.html -->
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Fingerprinting PoC</title>
+    <style>
+      /* Shared Styles */
+      .wrapper {
+        width: fit-content;
+      }
+      .browser, .os {
+        display: none;
+        font-weight: 600;
+      }
+      #chromeContainer,
+      #firefoxContainer {
+        width: fit-content;
+        margin-bottom: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h4>Calc OS Fingerprinting</h4>
+    <p>This is designed to distinguish clean installs of Windows 11 and Ubuntu
+      22.04 LTS.</p>
+    <p> Page id: {{id}}</p>
+    <style>
+    @supports not (-moz-appearance: none) {
+        #chromeContainer {
+          container: chromecontainer / inline-size;
+        }
+
+        #calcChrome {
+          width: calc(
+            1px *
+              (
+                e + pi *
+                  sin(
+                    317326.39402987924 * -210861.19767869983 *
+                      (
+                        36781.96919420755 / cos(129868.3654533018) *
+                          cos(-30780.497322536892) - pi * -115536.38801368067 *
+                          0.1396149976644665
+                      )
+                  )
+              )
+          );
+        }
+
+        /* Chrome + Ubuntu 22.04  (width: 0px) */
+        @container chromecontainer (width: 1.84375px) {
+          #selectChrome {
+            display: inline;
+            color: green;
+          }
+          #calcUbuntu {
+            display: inline;
+            color: orangered;
+          }
+        }
+
+        /* Chrome + Windows 11  (width: 1.84375px) */
+        @container chromecontainer (width: 0px) {
+          #selectChrome{
+            display: inline;
+            color: green;
+          }
+          #calcWindows {
+            display: inline;
+            color: blue;
+          }
+        }
+      }
+    @supports (-moz-appearance: none) {
+      #firefoxContainer {
+        container: firefoxcontainer / inline-size;
+      }
+
+      #calcFirefox {
+        width: calc(
+          1px *
+            (
+               (  e  * 0.06314882636070251 - 0.06699182000011206 /  ( 
+              327510.10546596383 * 101099.74005273856 )  )  + 
+              0.9363944577053189 /  sin(  sin( 86911.80023335948 *  tan( 
+              122224.59393033749 )  /  tan( 250486.18265094055 )  +  ( 
+              169617.27745474092 )  /  pi  * 19.00493122072233 - 
+              0.22360279853455722 )  / 50590.01594434995 +  tan(  ( 
+              110958.53977223029 )  + 109345.15143883083 * 99223.79864865377 
+              + 0.05425928323529661 )  / 94812.65262083427 *  pi  )  - 
+              0.8964629967231303 * -341499.34226304095
+            )
+        );
+      }
+
+      /* Firefox + Ubuntu 22.04  (width: 293874.6875px) */
+      @container firefoxcontainer (width: 293874.6875px) {
+          #selectFF {
+            display: inline;
+            color: red;
+          }
+          #calcUbuntu {
+            display: inline;
+            color: orangered;
+          }
+      }
+
+      /* Firefox + Windows 11  (width: 293694.0625px) */
+      @container firefoxcontainer (width: 293694.0625px) {
+          #selectFF{
+            display: inline;
+            color: red;
+          }
+          #calcWindows {
+            display: inline;
+            color: blue;
+          }
+      }
+    }
+    </style>
+    <div class='wrapper'>
+      <div id='chromeContainer'>
+      <div id='calcChrome'></div>
+        <span id='selectChrome' class="browser">Chrome</span>
+        <img
+          id='selectChrome'
+          src='{{serverDomain}}/image?id={{id}}&browser=chrome'
+          loading='lazy'
+        />
+        <span id='calcWindows' class="os">Windows 11</span>
+        <img
+          id='calcWindows'
+          src='{{serverDomain}}/image?id={{id}}&os=windows11'
+          loading='lazy'
+        />
+        <span id='calcUbuntu' class="os">Ubuntu 22.04</span>
+        <img
+          id='calcUbuntu'
+          src='{{serverDomain}}/image?id={{id}}&os=ubuntu22.04'
+          loading='lazy'
+        />
+      </div>
+      <div id='firefoxContainer'>
+        <div id='calcFirefox'></div>
+         <span id='selectFF' class="browser">Firefox</span>
+          <img
+            id='selectFF'
+            src='{{serverDomain}}/image?id={{id}}&browser=firefox'
+            loading='lazy'
+          />
+          <span id='calcWindows' class="os">Windows 11</span>
+          <img
+            id='calcWindows'
+            src='{{serverDomain}}/image?id={{id}}&os=windows11'
+            loading='lazy'
+          />
+          <span id='calcUbuntu' class="os">Ubuntu 22.04</span>
+          <img
+            id='calcUbuntu'
+            src='{{serverDomain}}/image?id={{id}}&os=ubuntu22.04'
+            loading='lazy'
+          />
+    </div>
+
+    <h4>Element Width OS Fingerprinting</h4>
+    <p>This is designed to distinguish clean installs of Windows 11 and Ubuntu
+      22.04 LTS.</p>
+    <style>
+      #containerEmail {
+        container: emailcontainer / inline-size;
+      }
+      @container emailcontainer (width: 185px) {
+        #emailUbuntu {
+          color: orangered;
+        }
+        #emailWindows {
+          display: none;
+        }
+      }
+      @container emailcontainer (width: 177px) {
+        #emailUbuntu {
+          display: none;
+        }
+        #emailWindows {
+          color: blue;
+        }
+      }
+    </style>
+    <div class='wrapper'>
+      <input type='email' placeholder='name@email.com' />
+      <div id='containerEmail'><span id='emailWindows'>Windows 11</span><span
+          id='emailUbuntu'
+        >Ubuntu 22.04</span></div>
+    </div>
+  </body>
+</html>
