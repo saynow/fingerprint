@@ -11,14 +11,12 @@
       .wrapper {
         width: fit-content;
       }
-      .browser, .os {
+      .browser, .os{
         display: none;
-        font-weight: 600;
       }
-      #chromeContainer,
-      #firefoxContainer {
-        width: fit-content;
-        margin-bottom: 0.5rem;
+      #chContainer,
+      #ffContainer {
+        container: browsercontainer / inline-size;
       }
     </style>
   </head>
@@ -29,11 +27,7 @@
     <p> Page id: {{id}}</p>
     <style>
     @supports not (-moz-appearance: none) {
-        #chromeContainer {
-          container: chromecontainer / inline-size;
-        }
-
-        #calcChrome {
+      #chTarget {      
           width: calc(
             1px *
               (
@@ -51,35 +45,29 @@
         }
 
         /* Chrome + Ubuntu 22.04  (width: 0px) */
-        @container chromecontainer (width: 1.84375px) {
-          #selectChrome {
+        @container browsercontainer (width: 0px) {
+          #chUb {
             display: inline;
             color: green;
           }
-          #calcUbuntu {
-            display: inline;
-            color: orangered;
+          #chWin {
+            display: none;
           }
         }
 
         /* Chrome + Windows 11  (width: 1.84375px) */
-        @container chromecontainer (width: 0px) {
-          #selectChrome{
+        @container browsercontainer (width: 1.84375px) {
+          #chWin {
             display: inline;
-            color: green;
+            color: red;
           }
-          #calcWindows {
-            display: inline;
-            color: blue;
+          #chUb{
+            display: none;
           }
         }
       }
     @supports (-moz-appearance: none) {
-      #firefoxContainer {
-        container: firefoxcontainer / inline-size;
-      }
-
-      #calcFirefox {
+      #ffTarget {       
         width: calc(
           1px *
             (
@@ -97,72 +85,61 @@
       }
 
       /* Firefox + Ubuntu 22.04  (width: 293874.6875px) */
-      @container firefoxcontainer (width: 293874.6875px) {
-          #selectFF {
+      @container browsercontainer (width: 293874.6875px) {
+          #ffUb {
             display: inline;
-            color: red;
+            color: green;
           }
-          #calcUbuntu {
-            display: inline;
-            color: orangered;
+          #ffWin{
+            display: none;
           }
       }
 
       /* Firefox + Windows 11  (width: 293694.0625px) */
-      @container firefoxcontainer (width: 293694.0625px) {
-          #selectFF{
+      @container browsercontainer (width: 293694.0625px) {
+          #ffWin {
             display: inline;
             color: red;
           }
-          #calcWindows {
-            display: inline;
-            color: blue;
+          #ffUb {
+            display: none;
           }
       }
     }
     </style>
     <div class='wrapper'>
-      <div id='chromeContainer'>
-      <div id='calcChrome'></div>
-        <span id='selectChrome' class="browser">Chrome</span>
+      <div id='chTarget'></div>
+      <div id='chContainer'>
+        <span id='chUb' class="browser">Chrome/Ubuntu 22.04</span>
         <img
-          id='selectChrome'
-          src='{{serverDomain}}/image?id={{id}}&browser=chrome'
+          id='chUb'
+          src='{{serverDomain}}/image?id={{id}}&client=chrome&os=ubuntu22.04'
           loading='lazy'
         />
-        <span id='calcWindows' class="os">Windows 11</span>
+        <span id='chWin' class="browser">Chrome/Windows 11</span>
         <img
-          id='calcWindows'
-          src='{{serverDomain}}/image?id={{id}}&os=windows11'
-          loading='lazy'
-        />
-        <span id='calcUbuntu' class="os">Ubuntu 22.04</span>
-        <img
-          id='calcUbuntu'
-          src='{{serverDomain}}/image?id={{id}}&os=ubuntu22.04'
+          id='chWin'
+          src='{{serverDomain}}/image?id={{id}}&client=chrome&os=windows11'
           loading='lazy'
         />
       </div>
-      <div id='firefoxContainer'>
-        <div id='calcFirefox'></div>
-         <span id='selectFF' class="browser">Firefox</span>
+    </div>
+    <div class='wrapper'>
+      <div id='ffTarget'></div>
+      <div id='ffContainer'>
+          <span id='ffWin' class="browser">Firefox/Windows 11</span>
           <img
-            id='selectFF'
-            src='{{serverDomain}}/image?id={{id}}&browser=firefox'
+            id='ffWin'
+            src='{{serverDomain}}/image?id={{id}}&client=firefox&os=windows11'
             loading='lazy'
           />
-          <span id='calcWindows' class="os">Windows 11</span>
+          <span id='ffUb' class="os">Firefox/Ubuntu 22.04</span>
           <img
-            id='calcWindows'
-            src='{{serverDomain}}/image?id={{id}}&os=windows11'
+            id='ffUb'
+            src='{{serverDomain}}/image?id={{id}}&client=firefox&os=ubuntu22.04'
             loading='lazy'
           />
-          <span id='calcUbuntu' class="os">Ubuntu 22.04</span>
-          <img
-            id='calcUbuntu'
-            src='{{serverDomain}}/image?id={{id}}&os=ubuntu22.04'
-            loading='lazy'
-          />
+      </div>
     </div>
 
     <h4>Element Width OS Fingerprinting</h4>
